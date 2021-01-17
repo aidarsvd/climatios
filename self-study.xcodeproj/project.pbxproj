@@ -73,6 +73,13 @@
 			path = app;
 			sourceTree = "<group>";
 		};
+		484833F125B4327000B65523 /* base */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
 		486AB7F725B3A0CC00595CA0 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +117,7 @@
 				48956A6025B33CEA00AC0E7A /* LaunchScreen.storyboard */,
 				48956A6325B33CEA00AC0E7A /* Info.plist */,
 				48956A7325B3446A00AC0E7A /* BaseView.swift */,
+				484833F125B4327000B65523 /* base */,
 			);
 			path = "self-study";
 			sourceTree = "<group>";

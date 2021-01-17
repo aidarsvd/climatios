@@ -8,6 +8,26 @@
 import UIKit
 
 class SecondaryViewController: BaseView , WeatherManagerDelegate{
+    func didUpdate(weather: WeatherModel?) {
+        DispatchQueue.main.async {
+            if(weather != nil){
+                self.regionLb.text = weather!.region
+                let celcium = String(format: "%.0f", weather!.temp)
+                self.degreesLb.text = "\(celcium) Cº"
+                self.descriptionLb.text = weather!.decription
+                self.pressureLb.text = "Pressure: \(weather!.pressure)"
+                self.humidityLb.text = "Humidity: \(weather!.humidity)"
+                self.visibilityLb.text = "Visibility: \(weather!.visibility)"
+                self.weatherIcon.image = UIImage(systemName: weather!.weatherIcon)
+                self.progressBar.isHidden = true
+            }else{
+                self.regionLb.text = "Not found"
+                self.progressBar.isHidden = true
+
+            }
+        }
+    }
+    
 
     @IBOutlet weak var progressBar: UIActivityIndicatorView!
     
@@ -25,23 +45,12 @@ class SecondaryViewController: BaseView , WeatherManagerDelegate{
             
         progressBar.startAnimating()
         apiFactory.delegate = self
-        apiFactory.doRequest()
+        
+        let city = changeCity(city: "Bishkek")
+        apiFactory.doRequest(baseUrl: city)
         
     }
-    func didUpdate(weather: WeatherModel) {
-        DispatchQueue.main.async {
-            self.regionLb.text = weather.region
-            self.degreesLb.text = "\(weather.temp) Cº"
-            self.descriptionLb.text = weather.decription
-            self.pressureLb.text = "Pressure: \(weather.pressure)"
-            self.humidityLb.text = "Humidity: \(weather.humidity)"
-            self.visibilityLb.text = "Visibility: \(weather.visibility)"
-            self.weatherIcon.image = UIImage(systemName: weather.weatherIcon)
-            self.progressBar.isHidden = true
-    
 
-        }
-    }
     
     
 

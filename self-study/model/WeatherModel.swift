@@ -9,7 +9,7 @@ import Foundation
 
 struct WeatherModel{
     let region : String
-    let temp: Int
+    let temp: Double
     let decription: String
     let pressure: Int
     let humidity: Int

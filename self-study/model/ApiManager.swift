@@ -8,23 +8,21 @@
 import Foundation
 
 protocol WeatherManagerDelegate {
-    func didUpdate(weather: WeatherModel)
+    func didUpdate(weather: WeatherModel?)
 }
 
 struct ApiManager {
     
-    let baseUrl = "https://api.openweathermap.org/data/2.5/weather?q=Bishkek&appid=e174a606afeb32e8177dfa2ec35cc85d&units=metric"
+//    let baseUrl = "https://api.openweathermap.org/data/2.5/weather?q=Bishkek&appid=e174a606afeb32e8177dfa2ec35cc85d&units=metric"
+//
+
     
-    //    func changeCity(city: String) {
-    //        let freshCityUrl = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=e174a606afeb32e8177dfa2ec35cc85d&units=metric"
-    //    }
-    
-    func doRequest() -> Void {
+    func doRequest(baseUrl: String) -> Void {
         performRequest(urlString: baseUrl)
     }
     
     var delegate: WeatherManagerDelegate?
-
+    
     func performRequest(urlString: String){
         
         if let url = URL(string: urlString) {
@@ -39,6 +37,8 @@ struct ApiManager {
                 if let safeData = data{
                     if let doneWeather = self.parseJSON(weatherData: safeData){
                         delegate?.didUpdate(weather: doneWeather)
+                    }else{
+                        delegate?.didUpdate(weather: nil)
                     }
                     
                 }
@@ -58,7 +58,7 @@ struct ApiManager {
                                        visibility: decodedData.visibility, id: decodedData.weather[0].id)
             print()
             return weather
-        
+            
             
         }catch{
             print(error)
