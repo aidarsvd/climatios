@@ -7,43 +7,64 @@
 
 import Foundation
 
+protocol WeatherManagerDelegate {
+    func didUpdate(weather: WeatherModel)
+}
+
 struct ApiManager {
     
-    
     let baseUrl = "https://api.openweathermap.org/data/2.5/weather?q=Bishkek&appid=e174a606afeb32e8177dfa2ec35cc85d&units=metric"
-
-//    func changeCity(city: String) {
-//        let freshCityUrl = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=e174a606afeb32e8177dfa2ec35cc85d&units=metric"
-//    }
+    
+    //    func changeCity(city: String) {
+    //        let freshCityUrl = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=e174a606afeb32e8177dfa2ec35cc85d&units=metric"
+    //    }
     
     func doRequest() -> Void {
         performRequest(urlString: baseUrl)
     }
     
+    var delegate: WeatherManagerDelegate?
+
     func performRequest(urlString: String){
         
         if let url = URL(string: urlString) {
             let session = URLSession(configuration: .default)
             
-            let task = session.dataTask(with: url, completionHandler: handle(data:response:error:))
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                if let safeData = data{
+                    if let doneWeather = self.parseJSON(weatherData: safeData){
+                        delegate?.didUpdate(weather: doneWeather)
+                    }
+                    
+                }
+            }
             
             task.resume()
-            
         }
-        
     }
     
-    func handle(data: Data?, response: URLResponse?, error: Error?) -> Void{
-        if error != nil {
-            print(error!)
-            return
-        }
+    func parseJSON(weatherData: Data) -> WeatherModel?{
+        let decoder = JSONDecoder()
+        do{
+            let decodedData = try decoder.decode(MainData.self, from: weatherData)
+            let weather = WeatherModel(region: decodedData.name, temp: decodedData.main.temp,
+                                       decription:decodedData.weather[0].main,
+                                       pressure: decodedData.main.pressure, humidity: decodedData.main.humidity,
+                                       visibility: decodedData.visibility)
+            print()
+            return weather
         
-        if let safeData = data{
-            let dataString = String(data: safeData, encoding: .utf8)
-            print(dataString!)
+            
+        }catch{
+            print(error)
+            return nil
         }
-        
     }
+    
     
 }

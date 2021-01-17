@@ -7,22 +7,25 @@
 
 import UIKit
 
-class SecondaryViewController: BaseView {
+class SecondaryViewController: BaseView , WeatherManagerDelegate{
 
-    
-    let apiFactory = ApiManager()
+
+    var apiFactory = ApiManager()
     
     @IBOutlet weak var testLb: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(apiFactory.baseUrl)
 
+        apiFactory.delegate = self
         apiFactory.doRequest()
-        // Do any additional setup after loading the view.
+        
     }
     
-
+    func didUpdate(weather: WeatherModel) {
+        print(weather.decription)
+    }
+    
     
 
 }
