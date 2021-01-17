@@ -8,11 +8,11 @@
 import Foundation
 
 struct WeatherModel{
-    let region : String?
-    let temp: Int?
-    let decription: String?
-    let pressure: Int?
-    let humidity: Int?
-    let visibility: Int?
+    let region : String
+    let temp: Int
+    let decription: String
+    let pressure: Int
+    let humidity: Int
+    let visibility: Int
     
 }
