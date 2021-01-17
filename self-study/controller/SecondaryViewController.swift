@@ -8,6 +8,8 @@
 import UIKit
 
 class SecondaryViewController: BaseView , WeatherManagerDelegate{
+    var region = "Bishkek"
+
     func didUpdate(weather: WeatherModel?) {
         DispatchQueue.main.async {
             if(weather != nil){
@@ -46,7 +48,7 @@ class SecondaryViewController: BaseView , WeatherManagerDelegate{
         progressBar.startAnimating()
         apiFactory.delegate = self
         
-        let city = changeCity(city: "Bishkek")
+        let city = changeCity(city: region)
         apiFactory.doRequest(baseUrl: city)
         
     }

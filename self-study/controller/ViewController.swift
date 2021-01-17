@@ -7,19 +7,28 @@
 
 import UIKit
 
-class ViewController: BaseView {
-
+class ViewController: BaseView, UITextFieldDelegate {
+    
+    var region = ""
+    @IBOutlet weak var cityInput: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        cityInput.delegate = self
     }
 
-    @IBAction func intentBtn(_ sender: Any) {
-
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        cityInput.endEditing(true)
+        region = cityInput.text!
         let vc = getVC(name: "SecondaryViewController") as! SecondaryViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        vc.region = region
+        print(region)
+        self.navigationController?.pushViewController(vc, animated:true)
+        return true
         
     }
-    
+
+
 }
 
