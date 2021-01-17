@@ -55,7 +55,7 @@ struct ApiManager {
             let weather = WeatherModel(region: decodedData.name, temp: decodedData.main.temp,
                                        decription:decodedData.weather[0].main,
                                        pressure: decodedData.main.pressure, humidity: decodedData.main.humidity,
-                                       visibility: decodedData.visibility)
+                                       visibility: decodedData.visibility, id: decodedData.weather[0].id)
             print()
             return weather
         

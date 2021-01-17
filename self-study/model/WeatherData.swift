@@ -17,6 +17,7 @@ struct MainData: Decodable {
 
 struct WeatherRaw: Decodable {
     let main: String
+    let id: Int
 }
 
 struct MainRawData: Decodable {

@@ -9,7 +9,8 @@ import UIKit
 
 class SecondaryViewController: BaseView , WeatherManagerDelegate{
 
-
+    @IBOutlet weak var progressBar: UIActivityIndicatorView!
+    
     var apiFactory = ApiManager()
     
     @IBOutlet weak var regionLb: UILabel!
@@ -18,15 +19,15 @@ class SecondaryViewController: BaseView , WeatherManagerDelegate{
     @IBOutlet weak var pressureLb: UILabel!
     @IBOutlet weak var humidityLb: UILabel!
     @IBOutlet weak var visibilityLb: UILabel!
+    @IBOutlet weak var weatherIcon: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
+            
+        progressBar.startAnimating()
         apiFactory.delegate = self
         apiFactory.doRequest()
         
     }
-    
     func didUpdate(weather: WeatherModel) {
         DispatchQueue.main.async {
             self.regionLb.text = weather.region
@@ -35,7 +36,10 @@ class SecondaryViewController: BaseView , WeatherManagerDelegate{
             self.pressureLb.text = "Pressure: \(weather.pressure)"
             self.humidityLb.text = "Humidity: \(weather.humidity)"
             self.visibilityLb.text = "Visibility: \(weather.visibility)"
-        
+            self.weatherIcon.image = UIImage(systemName: weather.weatherIcon)
+            self.progressBar.isHidden = true
+    
+
         }
     }
     
